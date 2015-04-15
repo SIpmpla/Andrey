@@ -53,6 +53,13 @@
 			{/foreach}
 			</table>
 			<input type="submit" class="button" value="в корзину" data-result-text="добавлено"/>
+			{* fastorder *}
+			<div class="wishlist">
+			   <a id="fast-order-send-button" class="fast-order-send-button send_item button_description" href="#fast-order" data-name="{$product->name}">
+				   {if $fast-order}Заказать в один клик{else}Заказать в один клик{/if}
+			   </a>                
+			</div>
+            {*/ fastorder *}
 		</form>
 		<!-- Выбор варианта товара (The End) -->
 		{else}
@@ -141,7 +148,7 @@
 			</tr>
 			{/foreach}
 			</table>
-			<input type="submit" class="button" value="в корзину" data-result-text="добавлено"/>
+			<input type="submit" class="button" value="в корзину" data-result-text="добавлено"/>1234
 		</form>
 		<!-- Выбор варианта товара (The End) -->
 		{else}

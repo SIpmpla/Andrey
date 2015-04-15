@@ -79,10 +79,22 @@
 	</script>
 	{/literal}
 		
+	{* fastorder *}	
+    {if $smarty.get.module == 'ProductView' || $smarty.get.module == 'ProductsView'}
+		<script type="text/javascript" src="js/fancybox/jquery.fancybox.pack.js"></script>
+		<link rel="stylesheet" href="js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+        <link href="design/{$settings->theme|escape}/css/fast-order.css" rel="stylesheet" type="text/css" media="screen"/>
+        <script type="text/javascript" src="design/{$settings->theme}/js/fast-order.js"></script>
+    {/if}
+    {*/ fastorder *}
 			
 </head>
 <body>
-
+	{* fastorder *}
+	{if $smarty.get.module == 'ProductView' || $smarty.get.module == 'ProductsView'}
+		{include file='fast_order.tpl'}
+	{/if}
+	{*/ fastorder *}
 	<!-- Верхняя строка -->
 	<div id="top_background">
 	<div id="top">
