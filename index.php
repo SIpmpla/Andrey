@@ -6,7 +6,7 @@
  * @copyright 	2011 Denis Pikusov
  * @link 		http://simp.la
  * @author 		Denis Pikusov
- *
+ *dsfds
  */
 
 // Засекаем время
