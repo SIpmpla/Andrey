@@ -32,7 +32,7 @@ $(function() {
 	meta_title_touched = true;
 	meta_keywords_touched = true;
 	meta_description_touched = true;
-	url_check = true;
+	url_touched = true;
 	
 	if($('input[name="meta_title"]').val() == generate_meta_title() || $('input[name="meta_title"]').val() == '')
 		meta_title_touched = false;
@@ -41,12 +41,12 @@ $(function() {
 	if($('textarea[name="meta_description"]').val() == generate_meta_description() || $('textarea[name="meta_description"]').val() == '')
 		meta_description_touched = false;
 	if($('input[name="url"]').val() == generate_url() || $('input[name="url"]').val() == '')
-		url_check = false;
+		url_touched = false;
 		
 	$('input[name="meta_title"]').change(function() { meta_title_touched = true; });
 	$('input[name="meta_keywords"]').change(function() { meta_keywords_touched = true; });
 	$('input[textarea="meta_description"]').change(function() { meta_description_touched = true; });
-	$('input[name="url"]').change(function() { url_check = true; });
+	$('input[name="url"]').change(function() { url_touched = true; });
 	
 	$('input[name="name"]').keyup(function() { set_meta(); });
 	
@@ -58,7 +58,7 @@ $(function() {
 			$('input[name="meta_keywords"]').val(generate_meta_keywords());
 		if(!meta_description_touched)
 			$('textarea[name="meta_description"]').val(generate_meta_description());
-		if(!url_check)
+		if(!url_touched)
 			$('input[name="url"]').val(generate_url());
 	}
 	
@@ -112,21 +112,11 @@ $(function() {
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span class="text">{if $message_success=='added'}Бренд добавлен{elseif $message_success=='updated'}Бренд обновлен{else}{$message_success}{/if}</span>
+	<span>{if $message_success=='added'}Бренд добавлен{elseif $message_success=='updated'}Бренд обновлен{else}{$message_success}{/if}</span>
 	<a class="link" target="_blank" href="../brands/{$brand->url}">Открыть бренд на сайте</a>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
-	
-	<span class="share">		
-		<a href="#" onClick='window.open("http://vkontakte.ru/share.php?url={$config->root_url|urlencode}/brands/{$brand->url|urlencode}&title={$brand->name|urlencode}&description={$brand->description|urlencode}&image={$config->root_url|urlencode}/files/brands/{$brand->image|urlencode}&noparse=true","displayWindow","width=700,height=400,left=250,top=170,status=no,toolbar=no,menubar=no");return false;'>
-  		<img src="{$config->root_url}/simpla/design/images/vk_icon.png" /></a>
-		<a href="#" onClick='window.open("http://www.facebook.com/sharer.php?u={$config->root_url|urlencode}/brands/{$brand->url|urlencode}","displayWindow","width=700,height=400,left=250,top=170,status=no,toolbar=no,menubar=no");return false;'>
-  		<img src="{$config->root_url}/simpla/design/images/facebook_icon.png" /></a>
-		<a href="#" onClick='window.open("http://twitter.com/share?text={$brand->name|urlencode}&url={$config->root_url|urlencode}/brands/{$brand->url|urlencode}&hashtags={$brand->meta_keywords|replace:' ':''|urlencode}","displayWindow","width=700,height=400,left=250,top=170,status=no,toolbar=no,menubar=no");return false;'>
-  		<img src="{$config->root_url}/simpla/design/images/twitter_icon.png" /></a>
-	</span>
-	
 </div>
 <!-- Системное сообщение (The End)-->
 {/if}
@@ -134,7 +124,7 @@ $(function() {
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span class="text">{if $message_error=='url_exists'}Бренд с таким адресом уже существует{else}{$message_error}{/if}</span>
+	<span>{if $message_error=='url_exists'}Бренд с таким адресом уже существует{else}{$message_error}{/if}</span>
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->
@@ -198,6 +188,27 @@ $(function() {
 			</ul>
 			{/if}
 		</div>
+        
+        {*change_price_group*}
+        {if $message_price_success}
+            <div class="message message_success">
+            	<span>Цены обновлены</span>
+            </div>
+        {/if}
+        {if $message_price_error}
+            <div class="message message_error">
+            	<span>{if $message_price_error == '100_percent'}Уменьшить на 100% и более не возможно{elseif $message_price_error == 'empty_products'}Не найдено товаров в этом бренде{else}{$message_price_error}{/if}</span>
+            </div>
+        {/if}
+        <div class="block layer">
+			<h2>Изменить цену товаров в этом бренде</h2>
+			<input class="simpla_inp" name="change_price" type="text" />
+            <select name="change_type">
+                <option value="price">Цена</option>
+                <option value="percentage">Процент</option>
+            </select>
+		</div>
+        {*/change_price_group*}
 		
 	</div>
 	<!-- Правая колонка свойств товара (The End)--> 

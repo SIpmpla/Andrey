@@ -43,7 +43,7 @@ $(function() {
 	meta_title_touched = true;
 	meta_keywords_touched = true;
 	meta_description_touched = true;
-	url_check = true;
+	url_touched = true;
 	
 	if($('input[name="meta_title"]').val() == generate_meta_title() || $('input[name="meta_title"]').val() == '')
 		meta_title_touched = false;
@@ -52,12 +52,12 @@ $(function() {
 	if($('textarea[name="meta_description"]').val() == generate_meta_description() || $('textarea[name="meta_description"]').val() == '')
 		meta_description_touched = false;
 	if($('input[name="url"]').val() == generate_url() || $('input[name="url"]').val() == '')
-		url_check = false;
+		url_touched = false;
 		
 	$('input[name="meta_title"]').change(function() { meta_title_touched = true; });
 	$('input[name="meta_keywords"]').change(function() { meta_keywords_touched = true; });
 	$('textarea[name="meta_description"]').change(function() { meta_description_touched = true; });
-	$('input[name="url"]').change(function() { url_check = true; });
+	$('input[name="url"]').change(function() { url_touched = true; });
 	
 	$('input[name="name"]').keyup(function() { set_meta(); });
 	  
@@ -71,7 +71,7 @@ function set_meta()
 		$('input[name="meta_keywords"]').val(generate_meta_keywords());
 	if(!meta_description_touched)
 		$('textarea[name="meta_description"]').val(generate_meta_description());
-	if(!url_check)
+	if(!url_touched)
 		$('input[name="url"]').val(generate_url());
 }
 
@@ -128,22 +128,11 @@ function translit(str)
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span class="text">{if $message_success=='added'}Категория добавлена{elseif $message_success=='updated'}Категория обновлена{else}{$message_success}{/if}</span>
+	<span>{if $message_success=='added'}Категория добавлена{elseif $message_success=='updated'}Категория обновлена{else}{$message_success}{/if}</span>
 	<a class="link" target="_blank" href="../catalog/{$category->url}">Открыть категорию на сайте</a>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
-	
-	<span class="share">		
-		<a href="#" onClick='window.open("http://vkontakte.ru/share.php?url={$config->root_url|urlencode}/catalog/{$category->url|urlencode}&title={$category->name|urlencode}&description={$category->description|urlencode}&image={$config->root_url|urlencode}/files/categories/{$category->image|urlencode}&noparse=true","displayWindow","width=700,height=400,left=250,top=170,status=no,toolbar=no,menubar=no");return false;'>
-  		<img src="{$config->root_url}/simpla/design/images/vk_icon.png" /></a>
-		<a href="#" onClick='window.open("http://www.facebook.com/sharer.php?u={$config->root_url|urlencode}/catalog/{$category->url|urlencode}","displayWindow","width=700,height=400,left=250,top=170,status=no,toolbar=no,menubar=no");return false;'>
-  		<img src="{$config->root_url}/simpla/design/images/facebook_icon.png" /></a>
-		<a href="#" onClick='window.open("http://twitter.com/share?text={$category->name|urlencode}&url={$config->root_url|urlencode}/catalog/{$category->url|urlencode}&hashtags={$category->meta_keywords|replace:' ':''|urlencode}","displayWindow","width=700,height=400,left=250,top=170,status=no,toolbar=no,menubar=no");return false;'>
-  		<img src="{$config->root_url}/simpla/design/images/twitter_icon.png" /></a>
-	</span>
-	
-	
 </div>
 <!-- Системное сообщение (The End)-->
 {/if}
@@ -151,7 +140,7 @@ function translit(str)
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span class="text">{if $message_error=='url_exists'}Категория с таким адресом уже существует{else}{$message_error}{/if}</span>
+	<span>{if $message_error=='url_exists'}Категория с таким адресом уже существует{else}{$message_error}{/if}</span>
 	<a class="button" href="">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->
@@ -231,15 +220,27 @@ function translit(str)
 			</ul>
 			{/if}
 		</div>
-        <div class="block layer ">
-            <h2>Изменить цену товаров в этой категории</h2>
-            <input  name="increase_price" class="price_products_categories" type="text" value="">
-            <select name="method_increase_price" size="1">
-                <option selected="selected" value="price">Цена</option>
-                <option  value="percentage">Процент</option>
+        
+        {*change_price_group*}
+        {if $message_price_success}
+            <div class="message message_success">
+            	<span>Цены обновлены</span>
+            </div>
+        {/if}
+        {if $message_price_error}
+            <div class="message message_error">
+            	<span>{if $message_price_error == '100_percent'}Уменьшить на 100% и более не возможно{elseif $message_price_error == 'empty_products'}Не найдено товаров в этой категории{else}{$message_price_error}{/if}</span>
+            </div>
+        {/if}
+        <div class="block layer">
+			<h2>Изменить цену товаров в этом категории</h2>
+			<input class="simpla_inp" name="change_price" type="text" />
+            <select name="change_type">
+                <option value="price">Цена</option>
+                <option value="percentage">Процент</option>
             </select>
-
-        </div>
+		</div>
+        {*/change_price_group*}
 	</div>
 	<!-- Правая колонка свойств товара (The End)--> 
 

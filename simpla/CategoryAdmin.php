@@ -13,8 +13,35 @@ class CategoryAdmin extends Simpla
   function fetch()
   {
 		$category = new stdClass;
-		if($this->request->method('post'))
-		{
+        if($this->request->method('post')) {
+            /*change_price_group*/
+            $category_id = $this->request->post('id', 'integer');
+            $cat = $this->categories->get_category(intval($category_id));
+            $value = $this->request->post('change_price');
+            $type = $this->request->post('change_type');
+            if (!empty($value) && !empty($cat)) {
+                $variants = array();
+                $q = $this->db->placehold('select id from __products p INNER JOIN __products_categories pc ON pc.product_id = p.id AND pc.category_id in(?@)', $cat->children);
+                $this->db->query($q);
+                $p_ids = $this->db->results('id');
+                if (empty($p_ids)) {
+                    $this->design->assign('message_price_error', 'empty_products');
+                } elseif ($type == 'percentage') {
+                    if ($value <= -100) {
+                        $this->design->assign('message_price_error', '100_percent');
+                    } else {
+                        $coef = (float)$value/100+1;
+                        $this->db->query("UPDATE __variants SET price=price*?, compare_price=compare_price*? where product_id in(?@)", $coef, $coef, $p_ids);
+                        $this->design->assign('message_price_success', 'updated');
+                    }
+                } else {
+                    $value = (float)$value;
+                    $this->db->query("UPDATE __variants SET price=price+? where product_id in(?@)", $value, $p_ids);
+                    $this->db->query("UPDATE __variants SET compare_price=compare_price+? where product_id in(?@) and compare_price>0", $value, $p_ids);
+                    $this->design->assign('message_price_success', 'updated');
+                }
+            }
+            /*/change_price_group*/
 			$category->id = $this->request->post('id', 'integer');
 			$category->parent_id = $this->request->post('parent_id', 'integer');
 			$category->name = $this->request->post('name');
@@ -24,44 +51,10 @@ class CategoryAdmin extends Simpla
 			$category->meta_title = $this->request->post('meta_title');
 			$category->meta_keywords = $this->request->post('meta_keywords');
 			$category->meta_description = $this->request->post('meta_description');
-            $category->increase_price = $this->request->post('increase_price');
+			
 			$category->description = $this->request->post('description');
-
-            //Изменение цены товаров в категории
-            $category_id = $this->request->post('id', 'integer');
-            $product_category = $this->categories->get_category(intval($category_id));
-            $increase_price = $this->request->post('increase_price');
-            $type = $this->request->post('method_increase_price');
-            if (!empty($increase_price) && !empty($product_category)) {
-                $variants = array();
-                $query = $this->db->placehold('select id from __products p INNER JOIN __products_categories pc ON pc.product_id = p.id AND pc.category_id in(?@)', $product_category->children);
-                $this->db->query($query);
-                $p_ids = $this->db->results('id');
-                if (empty($p_ids)) {
-                    $this->design->assign('message_price_error', 'empty_products');
-                } elseif ($type == 'percentage') {
-                    if ($increase_price == -100) {
-                        $this->design->assign('message_price_error', '100_percent');
-                    } else {
-                        $coef = (float)$increase_price/100+1;
-                        $this->db->query("UPDATE __variants SET price=price*?, compare_price=compare_price*? where product_id in(?@)", $coef, $coef, $p_ids);
-                        $this->design->assign('message_price_success', 'updated');
-                    }
-                } else {
-                    $increase_price = (float)$increase_price;
-                    $this->db->query("UPDATE __variants SET price=price+? where product_id in(?@)", $increase_price, $p_ids);
-                    $this->db->query("UPDATE __variants SET compare_price=compare_price+? where product_id in(?@) and compare_price>0", $increase_price, $p_ids);
-                    $this->design->assign('message_price_success', 'updated');
-                }
-            }
-
-
-
-
-
-
-
-                // Не допустить одинаковые URL разделов.
+	
+			// Не допустить одинаковые URL разделов.
 			if(($c = $this->categories->get_category($category->url)) && $c->id!=$category->id)
 			{			
 				$this->design->assign('message_error', 'url_exists');

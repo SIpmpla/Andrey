@@ -13,8 +13,35 @@ class BrandAdmin extends Simpla
   function fetch()
   {
 	  	$brand = new stdClass;
-		if($this->request->method('post'))
-		{
+        if($this->request->method('post')) {
+            /*change_price_group*/
+            $brand_id = $this->request->post('id', 'integer');
+            $value = $this->request->post('change_price');
+            print_r($value);
+            $type = $this->request->post('change_type');
+            if (!empty($value) && !empty($brand_id)) {
+                $variants = array();
+                $q = $this->db->placehold('select id from __products p where brand_id=?', $brand_id);
+                $this->db->query($q);
+                $p_ids = $this->db->results('id');
+                if (empty($p_ids)) {
+                    $this->design->assign('message_price_error', 'empty_products');
+                } elseif ($type == 'percentage') {
+                    if ($value <= -100) {
+                        $this->design->assign('message_price_error', '100_percent');
+                    } else {
+                        $coef = (float)$value/100+1;
+                        $this->db->query("UPDATE __variants SET price=price*?, compare_price=compare_price*? where product_id in(?@)", $coef, $coef, $p_ids);
+                        $this->design->assign('message_price_success', 'updated');
+                    }
+                } else {
+                    $value = (float)$value;
+                    $this->db->query("UPDATE __variants SET price=price+? where product_id in(?@)", $value, $p_ids);
+                    $this->db->query("UPDATE __variants SET compare_price=compare_price+? where product_id in(?@) and compare_price>0", $value, $p_ids);
+                    $this->design->assign('message_price_success', 'updated');
+                }
+            }
+            /*/change_price_group*/
 			$brand->id = $this->request->post('id', 'integer');
 			$brand->name = $this->request->post('name');
 			$brand->description = $this->request->post('description');
