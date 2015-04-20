@@ -1,0 +1,5 @@
+AddType application/octet-stream csv
+AuthName "Simpla CMS"
+AuthType Basic
+AuthUserFile /home/simplama/simplamarket.com/test1993/simpla/.passwd
+require valid-user
