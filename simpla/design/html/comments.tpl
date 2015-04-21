@@ -2,9 +2,11 @@
 {capture name=tabs}
 	<li class="active"><a href="index.php?module=CommentsAdmin">Комментарии</a></li>
 	{if in_array('feedbacks', $manager->permissions)}<li><a href="index.php?module=FeedbacksAdmin">Обратная связь</a></li>{/if}
+
 	{* callback *}
 	{if in_array('callbacks', $manager->permissions)}<li><a href="index.php?module=CallbacksAdmin">Заказ обратного звонка</a></li>{/if}
 	{*/ callback *}
+
 {/capture}
 
 

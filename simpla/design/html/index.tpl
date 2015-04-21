@@ -62,10 +62,12 @@
 		
 	{if in_array('comments', $manager->permissions)}
 		<li><a href="index.php?module=CommentsAdmin"><img src="design/images/menu/comments.png"><b>Комментарии</b></a>
+
 		{* callbacks *}
 		{*if $new_comments_counter}<div class='counter'><span>{$new_comments_counter}</span></div>{/if}</li>*}
         {if $new_comments_counter || new_callbacks_counter}<div class='counter'><span>{$new_comments_counter + $new_callbacks_counter}</span></div>{/if}</li>
         {*/ callbacks *}
+
 	{elseif in_array('feedbacks', $manager->permissions)}
 		<li><a href="index.php?module=FeedbacksAdmin"><img src="design/images/menu/comments.png"><b>Комментарии</b></a>
 	{/if}

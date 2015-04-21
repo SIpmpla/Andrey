@@ -32,6 +32,7 @@ class IndexView extends View
 	 */
 	function fetch()
 	{
+
 		/* callback */
         if($this->request->method('post') && $this->request->post('callback'))
         {
@@ -52,6 +53,73 @@ class IndexView extends View
         /*/ callback */
 
         // Содержимое корзины
+
+		/*fastorder*/
+        if (isset($_POST['IsFastOrder'])) {
+            // Если нажали оформить заказ
+            if (isset($_POST['checkout'])) {                        
+                //$order->delivery_id = $this->request->post('delivery_id', 'integer');
+                $order->name        = $this->request->post('name');
+                $order->email       = $this->request->post('email');
+                $order->address     = $this->request->post('address');
+                $order->phone       = $this->request->post('phone');
+                $order->comment     = $this->request->post('comment');
+                $order->ip      	= $_SERVER['REMOTE_ADDR'];
+
+                //$this->design->assign('delivery_id', $order->delivery_id);
+                $this->design->assign('name', $order->name);
+                $this->design->assign('email', $order->email);
+                $this->design->assign('phone', $order->phone);
+                $this->design->assign('address', $order->address);
+
+                $order->email="_______";
+                $order->address = "_______";
+                $order->comment = "Быстрый заказ";                        
+                
+                //$captcha_code =  $this->request->post('captcha_code', 'string');
+
+                // Скидка
+                $cart = $this->cart->get_cart();
+                $order->discount = $cart->discount;
+
+                if($cart->coupon){
+                    $order->coupon_discount = $cart->coupon_discount;
+                    $order->coupon_code = $cart->coupon->code;
+                }
+                //                        
+                
+                if(!empty($this->user->id))
+                    $order->user_id = $this->user->id;
+
+                if(empty($order->name)){
+                    $this->design->assign('error', 'empty_name');
+                }elseif (empty($order->phone)) {
+                    $this->design->assign('error', 'empty_phone');
+                /*} elseif($_SESSION['captcha_code'] != $captcha_code || empty($captcha_code)){
+                    $this->design->assign('error', 'captcha');
+                 */
+                }else{
+                        // Добавляем заказ в базу
+                    $order_id = $this->orders->add_order($order);
+                    $_SESSION['order_id'] = $order_id;
+
+                    // Добавляем товары к заказу
+                    $this->orders->add_purchase(array('order_id' => $order_id, 'variant_id' => intval($this->request->post('variant_id')), 'amount' => 1));
+
+                    $order = $this->orders->get_order($order_id);
+                    
+                    // Отправляем письмо пользователю
+                    $this->notify->email_order_user($order->id);
+                    // Отправляем письмо администратору
+                    $this->notify->email_order_admin($order->id);
+                    // Перенаправляем на страницу заказа
+                    header('Location: '.$this->config->root_url.'/order/'.$order->url);
+                }                        
+            }
+        }            
+        /*/fastorder*/
+		
+
 		$this->design->assign('cart',		$this->cart->get_cart());
 	
         // Категории товаров

@@ -53,6 +53,7 @@ class IndexAdmin extends Simpla
 		/* callbacks */
         ,'CallbacksAdmin'      => 'callbacks'
         /*/ callbacks */
+
 	);
 
 	// Конструктор
@@ -151,12 +152,15 @@ class IndexAdmin extends Simpla
 		$new_comments_counter = $this->comments->count_comments(array('approved'=>0));
 		$this->design->assign("new_comments_counter", $new_comments_counter);
 		
+<<<<<<< HEAD
 		/* callbacks */
         $new_callbacks = $this->callbacks->get_callbacks(array('processed'=>0));
         $new_callbacks_counter = count($new_callbacks);
         $this->design->assign("new_callbacks_counter", $new_callbacks_counter);
         /* callbacks */
 		
+=======
+>>>>>>> module_fast_order
 		// Создаем текущую обертку сайта (обычно index.tpl)
 		$wrapper = $this->design->smarty->getTemplateVars('wrapper');
 		if(is_null($wrapper))

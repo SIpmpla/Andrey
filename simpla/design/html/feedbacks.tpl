@@ -5,6 +5,7 @@
 		{* callback *}
         {if in_array('callbacks', $manager->permissions)}<li><a href="index.php?module=CallbacksAdmin">Заказ обратного звонка</a></li>{/if}
         {*/ callback *}
+
 {/capture}
 
 {* Title *}

@@ -67,12 +67,15 @@ switch ($object)
     	if($simpla->managers->access('labels'))
         $result = $simpla->orders->update_label($id, $values);
         break;
+
 	/* callbacks */
     case 'callback':
     	if($simpla->managers->access('callbacks'))
         $result = $simpla->callbacks->update_callback($id, $values);
         break;
     /*/ callbacks */
+
+
 }
 
 header("Content-type: application/json; charset=UTF-8");

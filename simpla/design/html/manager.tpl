@@ -107,6 +107,7 @@ $(function() {
 					'payment'    =>'Способы оплаты',
 					'managers'   =>'Менеджеры',
 					'license'    =>'Управление лицензией'
+
 					
 					,'callbacks'  =>'Заказ обратного звонка'
 					
@@ -119,6 +120,10 @@ $(function() {
 				*}
 				{*/ callbacks *}
 				
+
+				]}
+				
+
 				{foreach $perms as $p=>$name}
 				<li><label class=property for="{$p}">{$name}</label>
 				<input id="{$p}" name="permissions[]" class="simpla_inp" type="checkbox" value="{$p}"

@@ -15,11 +15,13 @@ class Managers extends Simpla
 {	
 	public $permissions_list = array('products', 'categories', 'brands', 'features', 'orders', 'labels',
 		'users', 'groups', 'coupons', 'pages', 'blog', 'comments', 'feedbacks', 'import', 'export',
+
 		'backup', 'stats', 'design', 'settings', 'currency', 'delivery', 'payment', 'managers', 'license'
 		/* callbacks */
         ,'callbacks'
         /*/ callbacks */
 		);
+
 		
 	public $passwd_file = "simpla/.passwd";
 

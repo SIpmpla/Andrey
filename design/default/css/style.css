@@ -145,7 +145,10 @@ e[type="button"] {
 #account{
 	float: right;
 	font-size: 12px;
-	margin: 12px 10px 10px 0px;
+
+	margin-top: 12;
+	margin-right: 1px;
+
 	text-align: right;
 	color: #505050;
 }
@@ -170,7 +173,9 @@ e[type="button"] {
 	text-align: right;
 	margin-top: 45px;
 	margin-right: 5px;
+
 	font-style: italic;
+
 	height: 25px;
 	color: #505050;
 	font-size: 15px;
@@ -493,7 +498,9 @@ e[type="button"] {
 
 .products .product .annotation {
 	font-size: 12px;
+
 	color: #505050;
+
 	margin-bottom: 5px;
 }
 
@@ -555,6 +562,9 @@ cursor: pointer;
 	white-space: nowrap;
 }
 #features a.selected {
+
+
+
 	color: #505050;
 	text-decoration: none;
 }
@@ -928,6 +938,7 @@ table.order_info td
 	background-color: #ffcaca;
 	border: 1px dotted #ff4545;
 }
+
 /* @end */
 
 
@@ -967,4 +978,49 @@ input.callback_form_input {width: 200px;}
 
 .callback_button:active{position: static;}
 /* /callback */
+
+
+
+/* @end */
+
+/*fastorder*/
+#fast-order-send-button {
+float: left;
+clear: left;
+cursor: pointer; 
+}
+#fast-order-send-button {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+	background-color:#ededed;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #cccccc;
+	display:inline-block;
+	color:#555555;
+	font-family:arial;
+	font-size:14px;
+	font-weight:bold;
+	padding:6px 20px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffffff;
+	height: 15px;
+	padding: 3px;
+	font-size: 12px;
+	margin-top: 5px;
+}#fast-order-send-button:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+	background-color:#dfdfdf;
+}#fast-order-send-button:active {
+	position:relative;
+	top:1px;
+}
+/*/fastorder*/
 

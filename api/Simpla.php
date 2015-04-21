@@ -37,9 +37,7 @@ class Simpla
 		'feedbacks'  => 'Feedbacks',
 		'notify'     => 'Notify',
 		'managers'   => 'Managers'
-		/* callbacks */
 		, 'callbacks'  => 'Callbacks'
-        /*/ callbacks */
 	);
 	
 	// Созданные объекты

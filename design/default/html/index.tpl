@@ -79,9 +79,27 @@
 	</script>
 	{/literal}
 		
+
 			
 </head>
 <body>
+
+
+	{* fastorder *}	
+    {if $smarty.get.module == 'ProductView' || $smarty.get.module == 'ProductsView'}
+		<script type="text/javascript" src="js/fancybox/jquery.fancybox.pack.js"></script>
+		<link rel="stylesheet" href="js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+        <link href="design/{$settings->theme|escape}/css/fast-order.css" rel="stylesheet" type="text/css" media="screen"/>
+        <script type="text/javascript" src="design/{$settings->theme}/js/fast-order.js"></script>
+    {/if}
+    {*/ fastorder *}
+			
+
+	{* fastorder *}
+	{if $smarty.get.module == 'ProductView' || $smarty.get.module == 'ProductsView'}
+		{include file='fast_order.tpl'}
+	{/if}
+	{*/ fastorder *}
 
 	<!-- Верхняя строка -->
 	<div id="top_background">
@@ -121,10 +139,14 @@
 			{/if}
 		</div>
 		<!-- Вход пользователя (The End)-->
+
 		
 		{* callbacks *}
 		<div id="callback" class="callback_link"><a href="#call">Обратный звонок</a></div>
 		{*/ callbacks *}
+
+
+
 	</div>
 	</div>
 	<!-- Верхняя строка (The End)-->
@@ -264,8 +286,10 @@
 		<a href="http://simplacms.ru">Скрипт интернет-магазина Simpla</a>
 	</div>
 	<!-- Футер (The End)--> 
+
 	{* callbacks *}
     {include file='callback.tpl'} 
     {*/ callbacks *}
+
 </body>
 </html>
